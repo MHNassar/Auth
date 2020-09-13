@@ -13,7 +13,6 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-
 )
 
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +43,11 @@ func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.RequestURI, userCreated.ID))
-	responses.JSON(w, http.StatusCreated, userCreated)
+	token, _ := auth.CreateToken(userCreated.ID)
+	var response responses.CreateUser
+	response.Token = token
+	response.User = userCreated
+	responses.JSON(w, http.StatusCreated, response)
 }
 
 func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {

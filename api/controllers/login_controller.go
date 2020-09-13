@@ -37,7 +37,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	loginResponse := responses.LoginResponse{}
+	loginResponse := responses.Login{}
 	loginResponse.Token = token
 
 	responses.JSON(w, http.StatusOK, loginResponse)
