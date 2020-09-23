@@ -3,11 +3,11 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/MHNassar1/Auth/api/auth"
+	"github.com/MHNassar1/Auth/api/core"
 	"github.com/MHNassar1/Auth/api/models"
 	"github.com/MHNassar1/Auth/api/responses"
 	"github.com/MHNassar1/Auth/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
-	"github.com/MHNassar1/Auth/api/core"
 	"io/ioutil"
 	"net/http"
 )
@@ -31,7 +31,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	token, err := SignIn(user.Email, user.Password)
+	token, err := signIn(user.Email, user.Password)
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
 		responses.ERROR(w, http.StatusUnprocessableEntity, formattedError)
@@ -44,12 +44,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, loginResponse)
 }
 
-func  SignIn(email, password string) (string, error) {
+func signIn(email, password string) (string, error) {
 
 	var err error
-    
+
 	user := models.User{}
-    
 	err = core.AppInstance.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
 	if err != nil {
 		return "", err

@@ -1,13 +1,12 @@
-package core 
+package core
 
 import (
 	"fmt"
-	"log"
-	"github.com/jinzhu/gorm"
 	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+	"log"
 	"net/http"
 )
-
 
 type App struct {
 	DB     *gorm.DB
@@ -16,10 +15,10 @@ type App struct {
 
 var AppInstance *App = nil
 
-func (app *App) InitApp(DB *gorm.DB,Router *mux.Router ) {
+func (app *App) InitApp(DB *gorm.DB, Router *mux.Router) {
 	app.DB = DB
 	app.Router = Router
-	
+
 	AppInstance = app
 }
 
