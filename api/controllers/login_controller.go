@@ -7,11 +7,12 @@ import (
 	"github.com/MHNassar1/Auth/api/responses"
 	"github.com/MHNassar1/Auth/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/MHNassar1/Auth/api/core"
 	"io/ioutil"
 	"net/http"
 )
 
-func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
+func Login(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -30,7 +31,7 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
 	}
-	token, err := server.SignIn(user.Email, user.Password)
+	token, err := SignIn(user.Email, user.Password)
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
 		responses.ERROR(w, http.StatusUnprocessableEntity, formattedError)
@@ -43,13 +44,13 @@ func (server *Server) Login(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, loginResponse)
 }
 
-func (server *Server) SignIn(email, password string) (string, error) {
+func  SignIn(email, password string) (string, error) {
 
 	var err error
-
+    
 	user := models.User{}
-
-	err = server.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
+    
+	err = core.AppInstance.DB.Debug().Model(models.User{}).Where("email = ?", email).Take(&user).Error
 	if err != nil {
 		return "", err
 	}
