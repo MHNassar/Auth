@@ -1,8 +1,9 @@
 package models
 
-type Properties struct {
+type Property struct {
 	ID       uint32 `gorm:"primary_key;auto_increment" json:"id"`
 	Name     string `gorm:"size:255;not null;unique" json:"name"`
 	ShowName string `gorm:"size:255;not null;unique" json:"show_name"`
-	ParentId int    `gorm:"size:255;not null;" json:"parent id"`
+	Type     string `gorm:"size:255;null;" json:"type"`
+	ParentId int    `gorm:"size:255; null;" json:"parent id"`
 }

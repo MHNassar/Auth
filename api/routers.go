@@ -15,6 +15,8 @@ func Register() *mux.Router {
 	router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(controllers.GetUser)).Methods("GET")
 	router.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(controllers.UpdateUser))).Methods("PUT")
 	router.HandleFunc("/users/{id}", middlewares.SetMiddlewareAuthentication(controllers.DeleteUser)).Methods("DELETE")
+	router.HandleFunc("/users/properties", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(controllers.AddProperties))).Methods("POST")
+	router.HandleFunc("/users/properties", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(controllers.UpdateProperties))).Methods("PUT")
 
 	return router
 }

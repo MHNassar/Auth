@@ -8,29 +8,39 @@ import (
 )
 
 var users = []models.User{
-	//models.User{
-	//	UserName: "Mahmoud Nassar",
-	//	Email:    "mnassar662@gmail.com",
-	//	Password: "password",
-	//},
-	//models.User{
-	//	UserName: "test test",
-	//	Email:    "test@gmail.com",
-	//	Password: "password",
-	//},
+	models.User{
+		UserName: "Mahmoud Nassar",
+		Email:    "mnassar662@gmail.com",
+		Password: "password",
+	},
+	models.User{
+		UserName: "test test",
+		Email:    "test@gmail.com",
+		Password: "password",
+	},
 }
 
-var props = []models.Properties{
-	//models.Properties{
-	//	Name:     "personal_info",
-	//	ShowName: "Personal Information",
-	//	ParentId: 0,
-	//},
-	//models.Properties{
-	//	Name:     "contact_info",
-	//	ShowName: "Contacts",
-	//	ParentId: 0,
-	//},
+var props = []models.Property{
+	models.Property{
+		Name:     "personal_info",
+		ShowName: "Personal Information",
+		ParentId: 0,
+	},
+	models.Property{
+		Name:     "contact_info",
+		ShowName: "Contacts",
+		ParentId: 0,
+	},
+	models.Property{
+		Name:     "first_name",
+		ShowName: "First Name",
+		ParentId: 1,
+	},
+	models.Property{
+		Name:     "last_name",
+		ShowName: "Last Name",
+		ParentId: 1,
+	},
 }
 
 func Load(db *gorm.DB) {
@@ -41,12 +51,11 @@ func Load(db *gorm.DB) {
 		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
 		if err != nil {
 			log.Fatalf("cannot seed users table: %v", err)
-			continue
 		}
 	}
 
 	for i, _ := range props {
-		err = db.Debug().Model(&models.Properties{}).Create(&props[i]).Error
+		err = db.Debug().Model(&models.Property{}).Create(&props[i]).Error
 		if err != nil {
 			log.Fatalf("cannot seed Properties table: %v", err)
 		}

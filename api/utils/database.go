@@ -21,7 +21,16 @@ func GetConnection(DbUser, DbPassword, DbPort, DbHost, DbName string) (*gorm.DB,
 	} else {
 		fmt.Printf("We are connected to the mysql database")
 	}
-	DB.Debug().AutoMigrate(&models.User{}, &models.Properties{}) //database migration
+
+	migrate(DB)
 
 	return DB, err
+}
+
+func migrate(DB *gorm.DB) {
+	err := DB.Debug().DropTableIfExists(&models.User{}, &models.Property{}, &models.UserProperty{}).Error
+	if err != nil {
+		log.Fatalf("cannot drop table: %v", err)
+	}
+	DB.Debug().AutoMigrate(&models.User{}, &models.Property{}, &models.UserProperty{})
 }
