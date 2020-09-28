@@ -47,8 +47,8 @@ func UpdateProperties(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		return
 	}
-
 	var props []models.UserProperty
 	err = json.Unmarshal(body, &props)
 	if err != nil {
@@ -72,4 +72,14 @@ func UpdateProperties(w http.ResponseWriter, r *http.Request) {
 	response := responses.AddProperties{Message: "Add Done !!"}
 	responses.JSON(w, http.StatusCreated, response)
 
+}
+
+func GetAllProperties(w http.ResponseWriter, r *http.Request) {
+	prop := models.Property{}
+	props, err := prop.FindAl()
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, props)
 }
