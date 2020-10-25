@@ -28,9 +28,6 @@ func GetConnection(DbUser, DbPassword, DbPort, DbHost, DbName string) (*gorm.DB,
 }
 
 func migrate(DB *gorm.DB) {
-	err := DB.Debug().DropTableIfExists(&models.User{}, &models.Property{}, &models.UserProperty{}).Error
-	if err != nil {
-		log.Fatalf("cannot drop table: %v", err)
-	}
+
 	DB.Debug().AutoMigrate(&models.User{}, &models.Property{}, &models.UserProperty{})
 }

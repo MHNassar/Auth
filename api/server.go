@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"github.com/MHNassar1/Auth/api/core"
-	"github.com/MHNassar1/Auth/api/seed"
 	"github.com/MHNassar1/Auth/api/utils"
 	"github.com/joho/godotenv"
 	"log"
@@ -34,7 +33,6 @@ func Run() {
 	router := Register()
 
 	app.InitApp(db, router)
-	seed.Load(db)
 
 	fmt.Println("************** App Start <<>>>> ***************")
 
