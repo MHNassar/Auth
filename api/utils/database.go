@@ -29,5 +29,9 @@ func GetConnection(DbUser, DbPassword, DbPort, DbHost, DbName string) (*gorm.DB,
 
 func migrate(DB *gorm.DB) {
 
-	DB.Debug().AutoMigrate(&models.User{}, &models.Property{}, &models.UserProperty{})
+	DB.Debug().AutoMigrate(&models.User{},
+		&models.Property{},
+		&models.UserProperty{},
+		&models.Service{},
+		&models.City{})
 }

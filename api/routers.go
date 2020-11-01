@@ -21,5 +21,7 @@ func Register() *mux.Router {
 	router.HandleFunc("/users/properties", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(controllers.AddProperties))).Methods("POST")
 	router.HandleFunc("/users/properties/edit", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(controllers.UpdateProperties))).Methods("POST")
 
+	router.HandleFunc("/init/settings", middlewares.SetMiddlewareJSON(controllers.GetInitSettings)).Methods("GET")
+
 	return router
 }
