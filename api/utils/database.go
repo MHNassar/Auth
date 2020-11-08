@@ -12,7 +12,7 @@ import (
 func GetConnection(DbUser, DbPassword, DbPort, DbHost, DbName string) (*gorm.DB, error) {
 	var err error
 	var DB *gorm.DB
-	DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
+	DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
 	fmt.Println("**************** {DBURL} ***********************")
 	DB, err = gorm.Open("mysql", DBURL)
 	if err != nil {
@@ -29,7 +29,7 @@ func GetConnection(DbUser, DbPassword, DbPort, DbHost, DbName string) (*gorm.DB,
 
 func migrate(DB *gorm.DB) {
 
-	DB.Debug().AutoMigrate(&models.User{},
+	DB.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8").AutoMigrate(&models.User{},
 		&models.Property{},
 		&models.UserProperty{},
 		&models.Service{},
