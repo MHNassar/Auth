@@ -7,7 +7,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"log"
 	"net/http"
-	"os"
 )
 
 type App struct {
@@ -27,8 +26,8 @@ func (app *App) InitApp(DB *gorm.DB, Router *mux.Router) {
 func (App *App) Run(addr string) {
 	fmt.Println("Listening to port 8080")
 
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
-	originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
+	headersOk := handlers.AllowedHeaders([]string{"Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 
 	log.Fatal(http.ListenAndServe(addr, handlers.CORS(originsOk, headersOk, methodsOk)(App.Router)))
